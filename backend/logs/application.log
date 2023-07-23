@@ -1,0 +1,5 @@
+23:28:02.104 [http-nio-8080-exec-3] ERROR sg.edu.ntu.nutrimate.logger.auth - {"message" : "Bad credentials", "timestamp" : "Fri Jul 21 23:28:02 SGT 2023" }
+23:28:05.440 [http-nio-8080-exec-5] ERROR sg.edu.ntu.nutrimate.logger.auth - {"message" : "Bad credentials", "timestamp" : "Fri Jul 21 23:28:05 SGT 2023" }
+23:28:08.597 [http-nio-8080-exec-7] ERROR sg.edu.ntu.nutrimate.logger.auth - {"message" : "Your account is blocked as you have exceeded the number of tries.", "timestamp" : "Fri Jul 21 23:28:08 SGT 2023" }
+23:28:12.392 [http-nio-8080-exec-9] ERROR sg.edu.ntu.nutrimate.logger.auth - {"message" : "Your account is blocked as you have exceeded the number of tries.", "timestamp" : "Fri Jul 21 23:28:12 SGT 2023" }
+23:31:01.617 [http-nio-8080-exec-1] ERROR sg.edu.ntu.nutrimate.logger.auth - {"message" : "Bad credentials", "timestamp" : "Fri Jul 21 23:31:01 SGT 2023" }

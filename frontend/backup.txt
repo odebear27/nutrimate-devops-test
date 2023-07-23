@@ -1,0 +1,13 @@
+package.json
+
+"proxy": "http://localhost:8080/",
+"start": "set HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem && react-scripts start",
+
+Installing mkcert
+choco install mkcert
+
+Using mkcert
+mkcert -install
+
+# Generate the certificate (ran from the root of this project)
+mkcert -key-file ./.cert/key.pem -cert-file ./.cert/cert.pem "localhost"
