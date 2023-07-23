@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/application.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+  </appender>
+
+
+    <!-- <logger name="sg.edu.ntu.nutrimate.logger.auth" level="error" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger> -->
+
+    <logger name="sg.edu.ntu.nutrimate.logger.auth" level="error">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>        
+        <!-- <appender-ref ref="FILE" /> -->
+    </root>
+
+</configuration>
