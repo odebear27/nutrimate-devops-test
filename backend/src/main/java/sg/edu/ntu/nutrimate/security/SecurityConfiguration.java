@@ -86,6 +86,10 @@ public class SecurityConfiguration {
                 .cors()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/h2/**")
+                .permitAll()
+                .and()
+                .authorizeRequests()
                 .antMatchers("/nutrimate/public/**")
                 .permitAll()
                 .and()
@@ -98,7 +102,7 @@ public class SecurityConfiguration {
                 .hasRole("admin")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/basicauth")
+                .antMatchers("/nutrimate/basicauth")
                 .permitAll()
                 .and()
                 .authorizeRequests()
@@ -138,35 +142,35 @@ public class SecurityConfiguration {
                 .and()
                 
                 // For ReactUI************************************
-                // .logout()
-                // // .logoutSuccessUrl("/")
-                // .logoutUrl("/nutrimate/logout")
-                // .invalidateHttpSession(true)                
-                // .deleteCookies("JSESSIONID")
-                // // .logoutSuccessUrl("/nutrimate/success_logout")
-                // .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.NO_CONTENT));
+                .logout()
+                // .logoutSuccessUrl("/")
+                .logoutUrl("/nutrimate/logout")
+                .invalidateHttpSession(true)                
+                .deleteCookies("JSESSIONID")
+                // .logoutSuccessUrl("/nutrimate/success_logout")
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.NO_CONTENT));
                 // For ReactUI************************************
 
                 // For ThymeLeaf UI ************************************
-                .formLogin()
-                .loginPage("/signin")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/index", true)
-                // .failureUrl("/auth-error?error=true")
-                .failureUrl("/signin-error.html")
-                .failureHandler(authenticationFailureHandler())
-                .and()
-                .rememberMe()
-                .userDetailsService(userDetailsService)
-                .rememberMeParameter("remember-me")
-                .key("uniqueAndSecret")
-                .tokenValiditySeconds(86400)
-                .and()
-                .logout()
-                // .logoutUrl("/perform_logout")
-                .deleteCookies("JSESSIONID", "remember-me")
-                .logoutSuccessUrl("/signin?logout");
-                // .logoutSuccessHandler(logoutSuccessHandler());
+                // .formLogin()
+                // .loginPage("/signin")
+                // .loginProcessingUrl("/perform_login")
+                // .defaultSuccessUrl("/index", true)
+                // // .failureUrl("/auth-error?error=true")
+                // .failureUrl("/signin-error.html")
+                // .failureHandler(authenticationFailureHandler())
+                // .and()
+                // .rememberMe()
+                // .userDetailsService(userDetailsService)
+                // .rememberMeParameter("remember-me")
+                // .key("uniqueAndSecret")
+                // .tokenValiditySeconds(86400)
+                // .and()
+                // .logout()
+                // // .logoutUrl("/perform_logout")
+                // .deleteCookies("JSESSIONID", "remember-me")
+                // .logoutSuccessUrl("/signin?logout");
+                // // .logoutSuccessHandler(logoutSuccessHandler());
                 // For ThymeLeaf UI ************************************
 
         // ******************** Required for servlets-based web login
