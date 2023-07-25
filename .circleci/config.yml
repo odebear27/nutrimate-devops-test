@@ -47,7 +47,13 @@ jobs:
         - checkout
         - setup_remote_docker      
         - docker/check
-        - run: docker build -t $IMAGE_NAME .
+        - run:
+          name: Install Dependencies
+          command: |
+            cd backend
+            mvn clean package
+            cd ..
+            docker build -t $IMAGE_NAME .
         - snyk/scan: 
             docker-image-name: $IMAGE_NAME
             fail-on-issues: false
