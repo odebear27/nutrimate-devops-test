@@ -16,7 +16,7 @@ WORKDIR /backend
 COPY backend .
 # RUN mkdir -p src/main/resources/static
 # COPY --from=frontend /frontend/build src/main/resources/static
-# RUN mvn clean package
+RUN mvn clean package
 
 FROM eclipse-temurin:17-alpine
 COPY --from=backend /backend/target/backend-0.0.1-SNAPSHOT.jar ./app.jar
