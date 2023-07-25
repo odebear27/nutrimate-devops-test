@@ -11,8 +11,7 @@ jobs:
           name: Install Dependencies
           command: |
             cd backend
-            mvn clean
-            mvn spring-boot:run
+            mvn -D maven.test.skip=true clean package
   test:
     docker:
       - image: circleci/openjdk:17-jdk-buster
@@ -26,16 +25,18 @@ jobs:
 
   build-and-push:
     executor: docker/docker
+    environment:
+      IMAGE_NAME: jieromu79/cont_integration    
     steps:
       - setup_remote_docker
       - checkout
       - docker/check
       - docker/build:
-          image: wilsonlimdocker90/education-space
-          tag: v1.0.0
+          image: $IMAGE_NAME
+          tag: << pipeline.git.tag >>
       - docker/push:
-          image: wilsonlimdocker90/education-space
-          tag: v1.0.0
+          image: $IMAGE_NAME
+          tag: << pipeline.git.tag >>
 
 workflows:
   ci_flow:
