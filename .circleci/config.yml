@@ -11,6 +11,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
+            cd backend
             mvn clean package
   test:
     docker:
