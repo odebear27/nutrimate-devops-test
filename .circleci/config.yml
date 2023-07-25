@@ -1,0 +1,75 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@2.1.4
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:17-jdk-buster
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            cd backend
+            mvn clean
+            mvn spring-boot:run
+  test:
+    docker:
+      - image: circleci/openjdk:17-jdk-buster
+    steps:
+      - checkout
+      - run:
+          name: Run Unit Tests
+          command: |
+            cd backend
+            mvn test
+
+  build-and-push:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: wilsonlimdocker90/education-space
+          tag: v1.0.0
+      - docker/push:
+          image: wilsonlimdocker90/education-space
+          tag: v1.0.0
+
+workflows:
+  ci_flow:
+    jobs:
+      # - test:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop
+      - build:
+          # requires:
+          #   - test
+          filters:
+            branches:
+              only:
+                - main
+
+  cicd_flow:
+    jobs:
+      # - test:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - release
+      - build:
+          # requires:
+          #   - test
+          filters:
+            branches:
+              only:
+                - main
+      - build-and-push:
+          requires:
+            - build
+      # - deploy_to_heroku:
+      #     requires:
+      #       - build-and-push
