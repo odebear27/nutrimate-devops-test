@@ -11,8 +11,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            cd backend
-            mvn -D maven.test.skip=true clean package
+            mvn clean package
   test:
     docker:
       - image: circleci/openjdk:17-jdk-buster
