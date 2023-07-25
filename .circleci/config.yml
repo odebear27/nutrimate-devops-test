@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   docker: circleci/docker@2.1.4
+  snyk: snyk/snyk@1.5.0
 jobs:
   build:
     docker:
@@ -11,8 +12,7 @@ jobs:
           name: Install Dependencies
           command: |
             cd backend
-            mvn clean
-            mvn spring-boot:run
+            mvn clean package
   test:
     docker:
       - image: circleci/openjdk:17-jdk-buster
@@ -36,18 +36,35 @@ jobs:
       - docker/push:
           image: wilsonlimdocker90/education-space
           tag: v1.0.0
+  scan:
+    docker:
+        - image: circleci/openjdk:17-jdk-buster
+    environment:
+        IMAGE_NAME: wilsonlimdocker90/education-space
+    steps:
+        - checkout
+        - setup_remote_docker      
+        - docker/check
+        - run: docker build -t $IMAGE_NAME .
+        - snyk/scan: 
+            docker-image-name: $IMAGE_NAME
+            fail-on-issues: false
+            monitor-on-build: true
+            project: ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}-app
+            severity-threshold: low
+            token-variable: SNYK_TOKEN
 
 workflows:
   ci_flow:
     jobs:
-      # - test:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - develop
       - build:
-          # requires:
-          #   - test
+          filters:
+            branches:
+              only:
+                - main
+      - test:
+          requires:
+            - build
           filters:
             branches:
               only:
@@ -55,21 +72,24 @@ workflows:
 
   cicd_flow:
     jobs:
-      # - test:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - release
       - build:
-          # requires:
-          #   - test
           filters:
             branches:
               only:
                 - main
-      - build-and-push:
+      - test:
           requires:
             - build
+          filters:
+            branches:
+              only:
+                - main
+      - scan:
+          requires:
+            - test
+      - build-and-push:
+          requires:
+            - scan
       # - deploy_to_heroku:
       #     requires:
       #       - build-and-push
