@@ -42,7 +42,7 @@ jobs:
     docker:
         - image: circleci/openjdk:17-jdk-buster
     environment:
-        IMAGE_NAME: wilsonlimdocker90/education-space
+        IMAGE_NAME: jieromu79/cont_integration  
     steps:
         - checkout
         - setup_remote_docker      
