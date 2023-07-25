@@ -47,11 +47,7 @@ jobs:
         - checkout
         - setup_remote_docker      
         - docker/check
-        - run:
-            name: Build Docker Iamge for Scanning
-            command: |
-              cd backend
-              docker build -t $IMAGE_NAME .
+        - run: docker build -t $IMAGE_NAME .
         - snyk/scan: 
             docker-image-name: $IMAGE_NAME
             fail-on-issues: false
