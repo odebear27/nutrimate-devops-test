@@ -7,6 +7,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,6 +19,11 @@ public class WebController {
 
     @Autowired
     UserSecurityServiceImpl userSecurityService;
+
+    // @RequestMapping(value = "/nutrimateapp")
+    // public String forward(){
+    //     return "forward:/";
+    // }
 
     @RequestMapping(value = "/index")
     public String index(Model model) {
