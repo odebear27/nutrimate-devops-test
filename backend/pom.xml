@@ -171,7 +171,7 @@
 						</goals>
 						<phase>generate-resources</phase>
 						<configuration>
-							<arguments>install</arguments>
+							<arguments>--logevel=error install</arguments>
 						</configuration>
 					</execution>
 					
