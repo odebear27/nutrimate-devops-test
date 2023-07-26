@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:17-jdk-buster
+      - image: circleci/openjdk:18-jdk-buster
     steps:
       - checkout
       - run:
@@ -15,7 +15,7 @@ jobs:
             mvn clean package
   test:
     docker:
-      - image: circleci/openjdk:17-jdk-buster
+      - image: circleci/openjdk:18-jdk-buster
     steps:
       - checkout
       - run:
@@ -40,7 +40,7 @@ jobs:
           tag: << pipeline.git.tag >>
   scan:
     docker:
-        - image: circleci/openjdk:17-jdk-buster
+        - image: circleci/openjdk:18-jdk-buster
     environment:
         IMAGE_NAME: jieromu79/cont_integration  
     steps:
