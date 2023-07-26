@@ -23,28 +23,30 @@ jobs:
           name: Run Unit Tests
           command: |
             cd backend
-            mvn test  
+            mvn test
   scan:
     docker:
-        - image: circleci/openjdk:18-jdk-buster
+      - image: circleci/openjdk:18-jdk-buster
     environment:
-        IMAGE_NAME: jieromu79/cont_integration  
+      # IMAGE_NAME: jieromu79/cont_integration
+      IMAGE_NAME: odebear27/nutrimate-devops-test
     steps:
-        - checkout
-        - setup_remote_docker      
-        - docker/check
-        - run: docker build -t $IMAGE_NAME .
-        - snyk/scan: 
-            docker-image-name: $IMAGE_NAME
-            fail-on-issues: false
-            monitor-on-build: true
-            project: ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}-app
-            severity-threshold: low
-            token-variable: SNYK_TOKEN
+      - checkout
+      - setup_remote_docker
+      - docker/check
+      - run: docker build -t $IMAGE_NAME .
+      - snyk/scan:
+          docker-image-name: $IMAGE_NAME
+          fail-on-issues: false
+          monitor-on-build: true
+          project: ${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}-app
+          severity-threshold: low
+          token-variable: SNYK_TOKEN
   build-and-push:
     executor: docker/docker
     environment:
-      IMAGE_NAME: jieromu79/cont_integration    
+      # IMAGE_NAME: jieromu79/cont_integration
+      IMAGE_NAME: odebear27/nutrimate-devops-test
     steps:
       - setup_remote_docker
       - checkout
@@ -56,18 +58,18 @@ jobs:
           image: $IMAGE_NAME
           tag: << pipeline.git.tag >>
   deploy:
-      docker:
+    docker:
       - image: circleci/openjdk:18-jdk-buster
-      steps:
-          - setup_remote_docker      
-          - heroku/install
-          - checkout
-          - run:
-              name: Heroku Container Push
-              command: | 
-                  heroku container:login
-                  heroku container:push web -a nutrimateapp
-                  heroku container:release web -a nutrimateapp
+    steps:
+      - setup_remote_docker
+      - heroku/install
+      - checkout
+      - run:
+          name: Heroku Container Push
+          command: |
+            heroku container:login
+            heroku container:push web -a nutrimateapp
+            heroku container:release web -a nutrimateapp
 
 workflows:
   ci_flow:
