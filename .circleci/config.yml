@@ -28,8 +28,7 @@ jobs:
     docker:
       - image: circleci/openjdk:18-jdk-buster
     environment:
-      # IMAGE_NAME: jieromu79/cont_integration
-      IMAGE_NAME: odebear27/nutrimate-devops-test
+      IMAGE_NAME: jieromu79/cont_integration
     steps:
       - checkout
       - setup_remote_docker
@@ -45,18 +44,20 @@ jobs:
   build-and-push:
     executor: docker/docker
     environment:
-      # IMAGE_NAME: jieromu79/cont_integration
-      IMAGE_NAME: odebear27/nutrimate-devops-test
+      IMAGE_NAME: jieromu79/cont_integration
     steps:
       - setup_remote_docker
       - checkout
       - docker/check
+      - run:
+          name: Set Tag environment variable
+          command: echo "export TAG=$(git describe --tag --abbrev=0)" >> $BASH_ENV
       - docker/build:
           image: $IMAGE_NAME
-          tag: << pipeline.git.tag >>
+          tag: $TAG
       - docker/push:
           image: $IMAGE_NAME
-          tag: << pipeline.git.tag >>
+          tag: $TAG
   deploy:
     docker:
       - image: circleci/openjdk:18-jdk-buster
